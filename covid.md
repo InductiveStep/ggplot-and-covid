@@ -89,8 +89,9 @@ First, plot number of deaths reported every day, colouring points by day
 of week.
 
 ``` r
-ggplot(death2, aes(x = `Publicly confirmed as deceased as of 5pm this day`,
-                   y = `UK Daily count of deaths in all settings`)) + 
+death2 %>%
+  ggplot(aes(x = `Publicly confirmed as deceased as of 5pm this day`,
+             y = `UK Daily count of deaths in all settings`)) + 
   scale_colour_hue() + # Day of week is ordered; this uses a qual palette
   geom_line(color = "grey") +
   geom_point(aes(color=`Day of week`))
@@ -101,9 +102,10 @@ ggplot(death2, aes(x = `Publicly confirmed as deceased as of 5pm this day`,
 We can also add separate lines for each day of the week like this:
 
 ``` r
-ggplot(death2, aes(x = `Publicly confirmed as deceased as of 5pm this day`,
-                   y = `UK Daily count of deaths in all settings`,
-                   color = `Day of week`)) + 
+death2 %>%
+  ggplot(aes(x = `Publicly confirmed as deceased as of 5pm this day`,
+             y = `UK Daily count of deaths in all settings`,
+             color = `Day of week`)) + 
   geom_line() +
   geom_point() +
   scale_colour_hue() 
@@ -116,7 +118,7 @@ which apparently explains the dips on Saturday and Sunday.
 
 ### Aggregrate by week
 
-One way to “smooth” the data is sum by week:
+One way to “smooth” the day-to-day variation in data is to sum by week:
 
 ``` r
 death_week <- death2 %>%
@@ -125,16 +127,21 @@ death_week <- death2 %>%
             Days = n())
 ```
 
+Now plot, with a gam smoother.
+
 ``` r
-p <- ggplot(death_week, aes(x = Week, y = `Weekly Deaths`)) +
-         geom_point() +
-         geom_smooth(method = "gam", se = F) 
-p
+death_week %>%
+  ggplot(aes(x = Week, y = `Weekly Deaths`)) +
+  geom_point() +
+  geom_smooth(method = "gam", se = F) 
 ```
 
     ## `geom_smooth()` using formula 'y ~ s(x, bs = "cs")'
 
 ![](covid_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+There’s a slight blip around the first three time points as the curve
+goes briefly negative.
 
 ### Change by week
 
@@ -142,16 +149,17 @@ Plot change in the number of deaths compared to the previous week.
 
 ``` r
 death_week$Last_Week_Deaths <- lag(death_week$`Weekly Deaths`,1)
-death_week$Change           <- with(death_week, `Weekly Deaths` - Last_Week_Deaths)
+death_week$Change           <- with(death_week,
+                                    `Weekly Deaths` - Last_Week_Deaths)
 ```
 
 ``` r
-p <- ggplot(death_week, aes(x = Week, y = Change)) +
-         geom_point() +
-         geom_hline(yintercept=0) +
-         geom_smooth(method = "gam", se = F) +
-         ylab("Change in number of deaths since previous week")
-p
+death_week %>%
+  ggplot(aes(x = Week, y = Change)) +
+  geom_point() +
+  geom_hline(yintercept=0) +
+  geom_smooth(method = "gam", se = F) +
+  ylab("Change in number of deaths since previous week")
 ```
 
 ![](covid_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
