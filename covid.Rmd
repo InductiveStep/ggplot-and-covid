@@ -89,6 +89,7 @@ ggplot(death2, aes(x = `Publicly confirmed as deceased as of 5pm this day`,
   geom_point() +
   scale_colour_hue() 
 ```
+
 Deaths are reported when paperwork is filed, rather than time of death, which apparently explains the dips on Saturday and Sunday.
 
 ### Aggregrate by week

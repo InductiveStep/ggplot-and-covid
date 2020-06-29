@@ -109,9 +109,10 @@ ggplot(death2, aes(x = `Publicly confirmed as deceased as of 5pm this day`,
   scale_colour_hue() 
 ```
 
-![](covid_files/figure-gfm/unnamed-chunk-8-1.png)<!-- --> Deaths are
-reported when paperwork is filed, rather than time of death, which
-apparently explains the dips on Saturday and Sunday.
+![](covid_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+
+Deaths are reported when paperwork is filed, rather than time of death,
+which apparently explains the dips on Saturday and Sunday.
 
 ### Aggregrate by week
 
