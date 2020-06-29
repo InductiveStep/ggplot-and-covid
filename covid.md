@@ -2,7 +2,7 @@ Using ggplot2 to visualise Covid-19 deaths the UK
 ================
 Andi (<almost@gmail.com>,
 @[inductivestep](https://twitter.com/InductiveStep))
-28 June 2020
+29 June 2020
 
 ### Load packages
 
@@ -20,7 +20,7 @@ and Public Health England [over
 here](https://www.gov.uk/guidance/coronavirus-covid-19-information-for-the-public).
 
 ``` r
-death <- read_csv("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/896042/2020-06-28-COVID-19-UK-deaths-time-series.csv")
+death <- read_csv("https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/896264/COVID-19_UK_deaths_time_series_29_June.csv")
 names(death)
 ```
 
