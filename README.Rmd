@@ -5,15 +5,18 @@ date: "`r format(Sys.time(), '%d %B %Y')`"
 output: github_document
 ---
 
+This script shows how to use ggplot2, with the help of some tidyverse tools, to plot UK Covid-19 deaths data.
 
-### Load packages
+## General setup
 
 ```{r message=FALSE}
 library(tidyverse)
 library(lubridate)
 ```
 
-(I thought `lubridate` was part of `tidyverse` - apparently not.)
+(I thought `lubridate` was loaded as part of `tidyverse` - apparently not.)
+
+## Use DHSC and PHE data
 
 ### Get the data
 
@@ -27,19 +30,19 @@ Those variables names are _very long_ but I'll just keep them as-is and use back
 
 In RStudio, this views the data:
 
-```{r}
+```{r eval = FALSE}
 View(death)
 ```
 
 
 ### Fix the dates
 
-Parse the "%d-%b-%y" format (e.g., "28-Jun-20") as a POSIXct date.
+Parse the "%d-%b-%y" format (e.g., "28-Jun-20") as a `Date` object.
 
 ```{r}
 death2 <- death %>%
   mutate_at(vars(`Publicly confirmed as deceased as of 5pm this day`),
-            function(x) readr::parse_date(x, "%d-%b-%y"))
+            ~readr::parse_date(., "%d-%b-%y"))
 ```
 
 Also add variables for the day of week (Monday, Tuesday, ...) and the date of the Monday on the start of each week. 
@@ -105,21 +108,28 @@ death_week <- death2 %>%
             Days = n())
 ```
 
-Now plot, with a gam smoother.
+Now plot, with a generalized additive model (GAM) smoother, selecting only weeks where there were data for all seven days.
+
+Only the first week is affected:
 
 ```{r}
 death_week %>%
-  ggplot(aes(x = Week, y = `Weekly Deaths`)) +
-  geom_point() +
-  geom_smooth(method = "gam", se = F) 
+  filter(Days != 7) %>%
+  select(Week, `Weekly Deaths`, Days)
 ```
 
-There's a slight blip around the first three time points as the curve goes briefly negative.
+```{r}
+death_week %>%
+  filter(Days == 7) %>%
+  ggplot(aes(x = Week, y = `Weekly Deaths`)) +
+  geom_point() +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "tp"), se = F) 
+```
 
 
 ### Change by week
 
-Plot change in the number of deaths compared to the previous week.
+Plot change in the number of deaths compared to the previous week. First do the arithmetic:
 
 ```{r}
 death_week$Last_Week_Deaths <- lag(death_week$`Weekly Deaths`,1)
@@ -127,16 +137,75 @@ death_week$Change           <- with(death_week,
                                     `Weekly Deaths` - Last_Week_Deaths)
 ```
 
-
+Plot:
 
 ```{r message = FALSE, warning = FALSE}
 death_week %>%
+  filter(Days == 7) %>%
   ggplot(aes(x = Week, y = Change)) +
   geom_point() +
   geom_hline(yintercept=0) +
-  geom_smooth(method = "gam", se = F) +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), se = F) +
   ylab("Change in number of deaths since previous week")
 ```
 
+## ONS data
 
+The ONS data are [over here](https://www.ons.gov.uk/peoplepopulationandcommunity/birthsdeathsandmarriages/deaths/bulletins/deathsregisteredweeklyinenglandandwalesprovisional/previousReleases).
+
+### Setup
+
+```{r}
+library(readxl)
+```
+
+The `read_csv` command (used above) can read data from the web. This is not  currently (30 June 2020) the case for `read_xlsx`; the command below gives the error that the path "does not exist".
+
+```{r eval = FALSE}
+ons_dat <- read_xlsx("https://www.ons.gov.uk/visualisations/dvc875a/fig1/datadownload.xlsx")
+```
+
+The solution is to download the file first then read from there. The "mode" option is needed to download the file correctly (xlsx files are zip files, so they must be downloaded as binary). 
+
+```{r}
+localExcelTemp <- tempfile(fileext = ".xlsx")
+download.file("https://www.ons.gov.uk/visualisations/dvc875a/fig1/datadownload.xlsx",
+              destfile = localExcelTemp,
+              mode = "wb")
+```
+This read the file, skipping over the preamble and remove the footer.
+
+```{r}
+ons_dat <- read_xlsx(localExcelTemp, skip = 6) %>%
+  slice(1:(n()-2))
+names(ons_dat)
+```
+
+```{r eval = FALSE}
+View(ons_dat)
+```
+
+
+### Fix the dates
+
+These data give the number of deaths by week for England and Wales for weeks ending 3 Jan 2020 to 19 June 2020.
+
+The first column gives week numbers. Let's generate some proper dates:
+
+```{r}
+startDate <- as.Date("2020-01-03")
+numDates  <- nrow(ons_dat)
+ons_dat$`Week ending` <- startDate + (0:(numDates-1)) * 7
+```
+
+
+### Plot!
+
+```{r}
+ons_dat %>%
+  ggplot(aes(x = `Week ending`, y = `COVID-19`)) +
+  geom_point() +
+  ylab("Deaths due to Covid-19") +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "ds"), se = F)  
+```
 
