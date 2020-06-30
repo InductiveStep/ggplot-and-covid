@@ -258,3 +258,5 @@ ons_dat %>%
   ylab("Deaths due to Covid-19") +
   geom_smooth(method = "gam", formula = y ~ s(x, bs = "ds"), se = F)  
 ```
+
+![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
