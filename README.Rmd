@@ -110,7 +110,7 @@ death_week <- death2 %>%
 
 Now plot, with a generalized additive model (GAM) smoother, selecting only weeks where there were data for all seven days.
 
-Only the first week is affected:
+These week(s) are excluded:
 
 ```{r}
 death_week %>%

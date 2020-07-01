@@ -2,7 +2,7 @@ Using ggplot2 to visualise Covid-19 deaths the UK
 ================
 Andi (<almost@gmail.com>,
 @[inductivestep](https://twitter.com/InductiveStep))
-30 June 2020
+01 July 2020
 
 This script shows how to use ggplot2, with the help of some tidyverse
 tools, to plot UK Covid-19 deaths data.
@@ -136,7 +136,7 @@ death_week <- death2 %>%
 Now plot, with a generalized additive model (GAM) smoother, selecting
 only weeks where there were data for all seven days.
 
-Only the first week is affected:
+These week(s) are excluded:
 
 ``` r
 death_week %>%
@@ -148,7 +148,7 @@ death_week %>%
     ##   Week       `Weekly Deaths`  Days
     ##   <date>               <dbl> <int>
     ## 1 2020-03-02               3     4
-    ## 2 2020-06-29             155     1
+    ## 2 2020-06-29             331     2
 
 ``` r
 death_week %>%
