@@ -4,8 +4,8 @@ Andi (<almost@gmail.com>,
 @[inductivestep](https://twitter.com/InductiveStep))
 02 July 2020
 
-This script shows how to use ggplot2, with the help of some tidyverse
-tools, to plot UK Covid-19 deaths data.
+This script shows how to use ggplot2, with the help of some other
+tidyverse tools, to plot UK Covid-19 deaths data.
 
 ## General setup
 
@@ -414,9 +414,9 @@ gives the error that the path “does not exist”.
 ons_dat <- read_xlsx("https://www.ons.gov.uk/visualisations/dvc875a/fig1/datadownload.xlsx")
 ```
 
-The solution is to download the file first, which can all be done within
-R, then read from there. The “mode” option is needed to download the
-file correctly (xlsx files are zip files, so they must be downloaded as
+The solution is to download the file first, which can be done within R,
+then read from there. The “mode” option is needed to download the file
+correctly (xlsx files are zip files, so they must be downloaded as
 binary files).
 
 ``` r
