@@ -12,6 +12,7 @@ This script shows how to use ggplot2, with the help of some tidyverse tools, to 
 ```{r message=FALSE}
 library(tidyverse)
 library(lubridate)
+library(kableExtra)
 ```
 
 (I thought `lubridate` was loaded as part of `tidyverse` - apparently not.)
@@ -37,7 +38,7 @@ View(death)
 
 ### Fix the dates
 
-Parse the "%d-%b-%y" format (e.g., "28-Jun-20") as a `Date` object.
+Parse the "%d-%b-%y" format (e.g., "28-Jun-20") as a vector of `Date` objects.
 
 ```{r}
 death2 <- death %>%
@@ -58,13 +59,15 @@ death2 <- death2 %>%
 
 ```
 
+Take a look:
 
 ```{r}
 death2 %>%
   select(`Publicly confirmed as deceased as of 5pm this day`,
          `Day of week`,
          Week) %>%
-  head(10)
+  head(5) %>%
+  kable()
 ```
 
 
@@ -97,6 +100,8 @@ death2 %>%
 
 Deaths are reported when paperwork is filed, rather than time of death, which apparently explains the dips on Saturday and Sunday.
 
+
+
 ### Aggregrate by week
 
 One way to "smooth" the day-to-day variation in data is to sum by week:
@@ -115,7 +120,8 @@ These week(s) are excluded:
 ```{r}
 death_week %>%
   filter(Days != 7) %>%
-  select(Week, `Weekly Deaths`, Days)
+  select(Week, `Weekly Deaths`, Days) %>%
+  kable()
 ```
 
 ```{r}
@@ -165,7 +171,7 @@ The `read_csv` command (used above) can read data from the web. This is not  cur
 ons_dat <- read_xlsx("https://www.ons.gov.uk/visualisations/dvc875a/fig1/datadownload.xlsx")
 ```
 
-The solution is to download the file first then read from there. The "mode" option is needed to download the file correctly (xlsx files are zip files, so they must be downloaded as binary). 
+The solution is to download the file first, which can all be done within R, then read from there. The "mode" option is needed to download the file correctly (xlsx files are zip files, so they must be downloaded as binary files). 
 
 ```{r}
 localExcelTemp <- tempfile(fileext = ".xlsx")
@@ -180,6 +186,8 @@ ons_dat <- read_xlsx(localExcelTemp, skip = 6) %>%
   slice(1:(n()-2))
 names(ons_dat)
 ```
+
+As ever, use this to peek at the data:
 
 ```{r eval = FALSE}
 View(ons_dat)
@@ -197,6 +205,17 @@ startDate <- as.Date("2020-01-03")
 numDates  <- nrow(ons_dat)
 ons_dat$`Week ending` <- startDate + (0:(numDates-1)) * 7
 ```
+
+Have a look:
+
+```{r}
+ons_dat %>%
+  tail(10) %>%
+  select(`Week ending`, `COVID-19`) %>%
+  kable()
+```
+
+
 
 
 ### Plot!

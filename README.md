@@ -2,7 +2,7 @@ Using ggplot2 to visualise Covid-19 deaths the UK
 ================
 Andi (<almost@gmail.com>,
 @[inductivestep](https://twitter.com/InductiveStep))
-01 July 2020
+02 July 2020
 
 This script shows how to use ggplot2, with the help of some tidyverse
 tools, to plot UK Covid-19 deaths data.
@@ -12,6 +12,7 @@ tools, to plot UK Covid-19 deaths data.
 ``` r
 library(tidyverse)
 library(lubridate)
+library(kableExtra)
 ```
 
 (I thought `lubridate` was loaded as part of `tidyverse` - apparently
@@ -46,7 +47,8 @@ View(death)
 
 ### Fix the dates
 
-Parse the “%d-%b-%y” format (e.g., “28-Jun-20”) as a `Date` object.
+Parse the “%d-%b-%y” format (e.g., “28-Jun-20”) as a vector of `Date`
+objects.
 
 ``` r
 death2 <- death %>%
@@ -67,27 +69,160 @@ death2 <- death2 %>%
                             week_start = 1))
 ```
 
+Take a look:
+
 ``` r
 death2 %>%
   select(`Publicly confirmed as deceased as of 5pm this day`,
          `Day of week`,
          Week) %>%
-  head(10)
+  head(5) %>%
+  kable()
 ```
 
-    ## # A tibble: 10 x 3
-    ##    `Publicly confirmed as deceased as of 5pm this day` `Day of week` Week      
-    ##    <date>                                              <ord>         <date>    
-    ##  1 2020-03-05                                          Thu           2020-03-02
-    ##  2 2020-03-06                                          Fri           2020-03-02
-    ##  3 2020-03-07                                          Sat           2020-03-02
-    ##  4 2020-03-08                                          Sun           2020-03-02
-    ##  5 2020-03-09                                          Mon           2020-03-09
-    ##  6 2020-03-10                                          Tue           2020-03-09
-    ##  7 2020-03-11                                          Wed           2020-03-09
-    ##  8 2020-03-12                                          Thu           2020-03-09
-    ##  9 2020-03-13                                          Fri           2020-03-09
-    ## 10 2020-03-14                                          Sat           2020-03-09
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+Publicly confirmed as deceased as of 5pm this day
+
+</th>
+
+<th style="text-align:left;">
+
+Day of week
+
+</th>
+
+<th style="text-align:left;">
+
+Week
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-03-05
+
+</td>
+
+<td style="text-align:left;">
+
+Thu
+
+</td>
+
+<td style="text-align:left;">
+
+2020-03-02
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-03-06
+
+</td>
+
+<td style="text-align:left;">
+
+Fri
+
+</td>
+
+<td style="text-align:left;">
+
+2020-03-02
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-03-07
+
+</td>
+
+<td style="text-align:left;">
+
+Sat
+
+</td>
+
+<td style="text-align:left;">
+
+2020-03-02
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-03-08
+
+</td>
+
+<td style="text-align:left;">
+
+Sun
+
+</td>
+
+<td style="text-align:left;">
+
+2020-03-02
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-03-09
+
+</td>
+
+<td style="text-align:left;">
+
+Mon
+
+</td>
+
+<td style="text-align:left;">
+
+2020-03-09
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 ### Plot
 
@@ -141,14 +276,87 @@ These week(s) are excluded:
 ``` r
 death_week %>%
   filter(Days != 7) %>%
-  select(Week, `Weekly Deaths`, Days)
+  select(Week, `Weekly Deaths`, Days) %>%
+  kable()
 ```
 
-    ## # A tibble: 2 x 3
-    ##   Week       `Weekly Deaths`  Days
-    ##   <date>               <dbl> <int>
-    ## 1 2020-03-02               3     4
-    ## 2 2020-06-29             331     2
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+Week
+
+</th>
+
+<th style="text-align:right;">
+
+Weekly Deaths
+
+</th>
+
+<th style="text-align:right;">
+
+Days
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-03-02
+
+</td>
+
+<td style="text-align:right;">
+
+3
+
+</td>
+
+<td style="text-align:right;">
+
+4
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-06-29
+
+</td>
+
+<td style="text-align:right;">
+
+331
+
+</td>
+
+<td style="text-align:right;">
+
+2
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 ``` r
 death_week %>%
@@ -204,9 +412,10 @@ gives the error that the path “does not exist”.
 ons_dat <- read_xlsx("https://www.ons.gov.uk/visualisations/dvc875a/fig1/datadownload.xlsx")
 ```
 
-The solution is to download the file first then read from there. The
-“mode” option is needed to download the file correctly (xlsx files are
-zip files, so they must be downloaded as binary).
+The solution is to download the file first, which can all be done within
+R, then read from there. The “mode” option is needed to download the
+file correctly (xlsx files are zip files, so they must be downloaded as
+binary files).
 
 ``` r
 localExcelTemp <- tempfile(fileext = ".xlsx")
@@ -232,6 +441,8 @@ names(ons_dat)
     ## [7] "Influenza and pneumonia mentions - 5-year average"
     ## [8] "COVID-19"
 
+As ever, use this to peek at the data:
+
 ``` r
 View(ons_dat)
 ```
@@ -249,6 +460,203 @@ numDates  <- nrow(ons_dat)
 ons_dat$`Week ending` <- startDate + (0:(numDates-1)) * 7
 ```
 
+Have a look:
+
+``` r
+ons_dat %>%
+  tail(10) %>%
+  select(`Week ending`, `COVID-19`) %>%
+  kable()
+```
+
+<table>
+
+<thead>
+
+<tr>
+
+<th style="text-align:left;">
+
+Week ending
+
+</th>
+
+<th style="text-align:right;">
+
+COVID-19
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-04-17
+
+</td>
+
+<td style="text-align:right;">
+
+8758
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-04-24
+
+</td>
+
+<td style="text-align:right;">
+
+8237
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-05-01
+
+</td>
+
+<td style="text-align:right;">
+
+6035
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-05-08
+
+</td>
+
+<td style="text-align:right;">
+
+3930
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-05-15
+
+</td>
+
+<td style="text-align:right;">
+
+3810
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-05-22
+
+</td>
+
+<td style="text-align:right;">
+
+2589
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-05-29
+
+</td>
+
+<td style="text-align:right;">
+
+1822
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-06-05
+
+</td>
+
+<td style="text-align:right;">
+
+1588
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-06-12
+
+</td>
+
+<td style="text-align:right;">
+
+1114
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-06-19
+
+</td>
+
+<td style="text-align:right;">
+
+783
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
 ### Plot\!
 
 ``` r
@@ -259,4 +667,4 @@ ons_dat %>%
   geom_smooth(method = "gam", formula = y ~ s(x, bs = "ds"), se = F)  
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
