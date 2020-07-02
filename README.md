@@ -77,10 +77,11 @@ death2 %>%
          `Day of week`,
          Week) %>%
   head(5) %>%
-  kable()
+  kable() %>%
+  kable_styling(full_width = F)
 ```
 
-<table>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 
 <thead>
 
@@ -277,10 +278,11 @@ These week(s) are excluded:
 death_week %>%
   filter(Days != 7) %>%
   select(Week, `Weekly Deaths`, Days) %>%
-  kable()
+  kable() %>%
+  kable_styling(full_width = F)
 ```
 
-<table>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 
 <thead>
 
@@ -460,16 +462,17 @@ numDates  <- nrow(ons_dat)
 ons_dat$`Week ending` <- startDate + (0:(numDates-1)) * 7
 ```
 
-Have a look:
+Have a look at the tail:
 
 ``` r
 ons_dat %>%
-  tail(10) %>%
+  tail(5) %>%
   select(`Week ending`, `COVID-19`) %>%
-  kable()
+  kable() %>%
+  kable_styling(full_width = F)
 ```
 
-<table>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 
 <thead>
 
@@ -492,86 +495,6 @@ COVID-19
 </thead>
 
 <tbody>
-
-<tr>
-
-<td style="text-align:left;">
-
-2020-04-17
-
-</td>
-
-<td style="text-align:right;">
-
-8758
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-2020-04-24
-
-</td>
-
-<td style="text-align:right;">
-
-8237
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-2020-05-01
-
-</td>
-
-<td style="text-align:right;">
-
-6035
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-2020-05-08
-
-</td>
-
-<td style="text-align:right;">
-
-3930
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-2020-05-15
-
-</td>
-
-<td style="text-align:right;">
-
-3810
-
-</td>
-
-</tr>
 
 <tr>
 

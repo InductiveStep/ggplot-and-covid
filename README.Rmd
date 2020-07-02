@@ -3,6 +3,7 @@ title: "Using ggplot2 to visualise Covid-19 deaths the UK"
 author: "Andi (almost@gmail.com, @[inductivestep](https://twitter.com/InductiveStep))"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output: github_document
+always_allow_html: true
 ---
 
 This script shows how to use ggplot2, with the help of some tidyverse tools, to plot UK Covid-19 deaths data.
@@ -67,7 +68,8 @@ death2 %>%
          `Day of week`,
          Week) %>%
   head(5) %>%
-  kable()
+  kable() %>%
+  kable_styling(full_width = F)
 ```
 
 
@@ -121,7 +123,8 @@ These week(s) are excluded:
 death_week %>%
   filter(Days != 7) %>%
   select(Week, `Weekly Deaths`, Days) %>%
-  kable()
+  kable() %>%
+  kable_styling(full_width = F)
 ```
 
 ```{r}
@@ -206,13 +209,14 @@ numDates  <- nrow(ons_dat)
 ons_dat$`Week ending` <- startDate + (0:(numDates-1)) * 7
 ```
 
-Have a look:
+Have a look at the tail:
 
 ```{r}
 ons_dat %>%
-  tail(10) %>%
+  tail(5) %>%
   select(`Week ending`, `COVID-19`) %>%
-  kable()
+  kable() %>%
+  kable_styling(full_width = F)
 ```
 
 
