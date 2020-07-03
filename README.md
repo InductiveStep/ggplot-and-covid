@@ -2,7 +2,7 @@ Using ggplot2 to visualise Covid-19 deaths the UK
 ================
 Andi (<almost@gmail.com>,
 @[inductivestep](https://twitter.com/InductiveStep))
-02 July 2020
+03 July 2020
 
 This script shows how to use ggplot2, with the help of some other
 tidyverse tools, to plot UK Covid-19 deaths data.
@@ -228,7 +228,9 @@ Mon
 ### Plot
 
 First, plot number of deaths reported every day, colouring points by day
-of week.
+of week. I’ve also added straight lines between the points (it’s harder
+to spot the patterns without it) and a generalized additive model (GAM)
+smoother.
 
 ``` r
 death2 %>%
@@ -236,31 +238,23 @@ death2 %>%
              y = `UK Daily count of deaths in all settings`)) + 
   scale_colour_hue() + # Day of week is ordered; this uses a qual palette
   geom_line(color = "grey") +
-  geom_point(aes(color=`Day of week`))
+  geom_point(aes(color=`Day of week`)) +
+  geom_hline(yintercept=0) +
+  geom_smooth(method = "gam",
+              formula = y ~ s(x, bs = "cr"),
+              se = F,
+              col = "darkgrey")
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
-
-We can also add separate lines for each day of the week like this:
-
-``` r
-death2 %>%
-  ggplot(aes(x = `Publicly confirmed as deceased as of 5pm this day`,
-             y = `UK Daily count of deaths in all settings`,
-             color = `Day of week`)) + 
-  geom_line() +
-  geom_point() +
-  scale_colour_hue() 
-```
-
-![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 Deaths are reported when paperwork is filed, rather than time of death,
 which apparently explains the dips on Saturday and Sunday.
 
 ### Aggregrate by week
 
-One way to “smooth” the day-to-day variation in data is to sum by week:
+One way to “smooth” the day-to-day variation in data is to aggregate the
+numbers by week:
 
 ``` r
 death_week <- death2 %>%
@@ -269,8 +263,8 @@ death_week <- death2 %>%
             Days = n())
 ```
 
-Now plot, with a generalized additive model (GAM) smoother, selecting
-only weeks where there were data for all seven days.
+Now plot, with GAM smoother, selecting only weeks where there were data
+for all seven days.
 
 These week(s) are excluded:
 
@@ -344,13 +338,13 @@ Days
 
 <td style="text-align:right;">
 
-331
+557
 
 </td>
 
 <td style="text-align:right;">
 
-2
+4
 
 </td>
 
@@ -365,10 +359,11 @@ death_week %>%
   filter(Days == 7) %>%
   ggplot(aes(x = Week, y = `Weekly Deaths`)) +
   geom_point() +
-  geom_smooth(method = "gam", formula = y ~ s(x, bs = "tp"), se = F) 
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), se = T) +
+  geom_hline(yintercept=0) 
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ### Change by week
 
@@ -389,11 +384,11 @@ death_week %>%
   ggplot(aes(x = Week, y = Change)) +
   geom_point() +
   geom_hline(yintercept=0) +
-  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), se = F) +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), se = T) +
   ylab("Change in number of deaths since previous week")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 ## ONS data
 
@@ -426,7 +421,7 @@ download.file("https://www.ons.gov.uk/visualisations/dvc875a/fig1/datadownload.x
               mode = "wb")
 ```
 
-This read the file, skipping over the preamble and remove the footer.
+This reads the file, skipping over the preamble and removing the footer.
 
 ``` r
 ons_dat <- read_xlsx(localExcelTemp, skip = 6) %>%
@@ -580,14 +575,17 @@ COVID-19
 
 </table>
 
-### Plot\!
+### Plot
 
 ``` r
 ons_dat %>%
   ggplot(aes(x = `Week ending`, y = `COVID-19`)) +
   geom_point() +
   ylab("Deaths due to Covid-19") +
-  geom_smooth(method = "gam", formula = y ~ s(x, bs = "ds"), se = F)  
+  geom_smooth(method = "gam",
+              formula = y ~ s(x, bs = "cr"),
+              se = T) +
+  geom_hline(yintercept=0)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
