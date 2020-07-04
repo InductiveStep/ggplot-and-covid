@@ -2,7 +2,7 @@ Using ggplot2 to visualise Covid-19 deaths the UK
 ================
 Andi (<almost@gmail.com>,
 @[inductivestep](https://twitter.com/InductiveStep))
-03 July 2020
+04 July 2020
 
 This script shows how to use ggplot2, with the help of some other
 tidyverse tools, to plot UK Covid-19 deaths data.
@@ -241,7 +241,8 @@ death2 %>%
   geom_point(aes(color=`Day of week`)) +
   geom_hline(yintercept=0) +
   geom_smooth(method = "gam",
-              formula = y ~ s(x, bs = "cr"),
+              formula = y ~ s(x, bs = "cs"),
+              method.args = list(family = "poisson"),
               se = F,
               col = "darkgrey")
 ```
@@ -359,7 +360,10 @@ death_week %>%
   filter(Days == 7) %>%
   ggplot(aes(x = Week, y = `Weekly Deaths`)) +
   geom_point() +
-  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), se = T) +
+  geom_smooth(method = "gam",
+              formula = y ~ s(x, bs = "cs"),
+              method.args = list(family = "poisson"),
+              se = F) +
   geom_hline(yintercept=0) 
 ```
 
@@ -384,7 +388,7 @@ death_week %>%
   ggplot(aes(x = Week, y = Change)) +
   geom_point() +
   geom_hline(yintercept=0) +
-  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), se = T) +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), se = F) +
   ylab("Change in number of deaths since previous week")
 ```
 
@@ -583,8 +587,9 @@ ons_dat %>%
   geom_point() +
   ylab("Deaths due to Covid-19") +
   geom_smooth(method = "gam",
-              formula = y ~ s(x, bs = "cr"),
-              se = T) +
+              formula = y ~ s(x, bs = "cs"),
+              method.args = list(family = "poisson"),
+              se = F) +
   geom_hline(yintercept=0)
 ```
 
