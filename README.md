@@ -75,8 +75,9 @@ Take a look:
 death2 %>%
   select(`Publicly confirmed as deceased as of 5pm this day`,
          `Day of week`,
-         Week) %>%
-  head(5) %>%
+         Week,
+         `UK Daily count of deaths in all settings`) %>%
+  tail(7) %>%
   kable() %>%
   kable_styling(full_width = F)
 ```
@@ -105,6 +106,12 @@ Week
 
 </th>
 
+<th style="text-align:right;">
+
+UK Daily count of deaths in all settings
+
+</th>
+
 </tr>
 
 </thead>
@@ -115,29 +122,7 @@ Week
 
 <td style="text-align:left;">
 
-2020-03-05
-
-</td>
-
-<td style="text-align:left;">
-
-Thu
-
-</td>
-
-<td style="text-align:left;">
-
-2020-03-02
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-2020-03-06
+2020-06-26
 
 </td>
 
@@ -149,7 +134,13 @@ Fri
 
 <td style="text-align:left;">
 
-2020-03-02
+2020-06-22
+
+</td>
+
+<td style="text-align:right;">
+
+100
 
 </td>
 
@@ -159,7 +150,7 @@ Fri
 
 <td style="text-align:left;">
 
-2020-03-07
+2020-06-27
 
 </td>
 
@@ -171,7 +162,13 @@ Sat
 
 <td style="text-align:left;">
 
-2020-03-02
+2020-06-22
+
+</td>
+
+<td style="text-align:right;">
+
+36
 
 </td>
 
@@ -181,7 +178,7 @@ Sat
 
 <td style="text-align:left;">
 
-2020-03-08
+2020-06-28
 
 </td>
 
@@ -193,7 +190,13 @@ Sun
 
 <td style="text-align:left;">
 
-2020-03-02
+2020-06-22
+
+</td>
+
+<td style="text-align:right;">
+
+25
 
 </td>
 
@@ -203,7 +206,7 @@ Sun
 
 <td style="text-align:left;">
 
-2020-03-09
+2020-06-29
 
 </td>
 
@@ -215,7 +218,97 @@ Mon
 
 <td style="text-align:left;">
 
-2020-03-09
+2020-06-29
+
+</td>
+
+<td style="text-align:right;">
+
+155
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-06-30
+
+</td>
+
+<td style="text-align:left;">
+
+Tue
+
+</td>
+
+<td style="text-align:left;">
+
+2020-06-29
+
+</td>
+
+<td style="text-align:right;">
+
+176
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-07-01
+
+</td>
+
+<td style="text-align:left;">
+
+Wed
+
+</td>
+
+<td style="text-align:left;">
+
+2020-06-29
+
+</td>
+
+<td style="text-align:right;">
+
+89
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-07-02
+
+</td>
+
+<td style="text-align:left;">
+
+Thu
+
+</td>
+
+<td style="text-align:left;">
+
+2020-06-29
+
+</td>
+
+<td style="text-align:right;">
+
+137
 
 </td>
 

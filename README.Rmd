@@ -66,8 +66,9 @@ Take a look:
 death2 %>%
   select(`Publicly confirmed as deceased as of 5pm this day`,
          `Day of week`,
-         Week) %>%
-  head(5) %>%
+         Week,
+         `UK Daily count of deaths in all settings`) %>%
+  tail(7) %>%
   kable() %>%
   kable_styling(full_width = F)
 ```
