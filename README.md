@@ -122,34 +122,6 @@ UK Daily count of deaths in all settings
 
 <td style="text-align:left;">
 
-2020-06-28
-
-</td>
-
-<td style="text-align:left;">
-
-Sun
-
-</td>
-
-<td style="text-align:left;">
-
-2020-06-22
-
-</td>
-
-<td style="text-align:right;">
-
-25
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
 2020-06-29
 
 </td>
@@ -314,6 +286,34 @@ Sat
 
 </tr>
 
+<tr>
+
+<td style="text-align:left;">
+
+2020-07-05
+
+</td>
+
+<td style="text-align:left;">
+
+Sun
+
+</td>
+
+<td style="text-align:left;">
+
+2020-06-29
+
+</td>
+
+<td style="text-align:right;">
+
+16
+
+</td>
+
+</tr>
+
 </tbody>
 
 </table>
@@ -417,28 +417,6 @@ Days
 <td style="text-align:right;">
 
 4
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-2020-06-29
-
-</td>
-
-<td style="text-align:right;">
-
-646
-
-</td>
-
-<td style="text-align:right;">
-
-6
 
 </td>
 
