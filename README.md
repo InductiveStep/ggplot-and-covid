@@ -2,7 +2,7 @@ Using ggplot2 to visualise Covid-19 deaths the UK
 ================
 Andi (<almost@gmail.com>,
 @[inductivestep](https://twitter.com/InductiveStep))
-04 July 2020
+06 July 2020
 
 This script shows how to use ggplot2, with the help of some other
 tidyverse tools, to plot UK Covid-19 deaths data.
@@ -117,62 +117,6 @@ UK Daily count of deaths in all settings
 </thead>
 
 <tbody>
-
-<tr>
-
-<td style="text-align:left;">
-
-2020-06-26
-
-</td>
-
-<td style="text-align:left;">
-
-Fri
-
-</td>
-
-<td style="text-align:left;">
-
-2020-06-22
-
-</td>
-
-<td style="text-align:right;">
-
-100
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="text-align:left;">
-
-2020-06-27
-
-</td>
-
-<td style="text-align:left;">
-
-Sat
-
-</td>
-
-<td style="text-align:left;">
-
-2020-06-22
-
-</td>
-
-<td style="text-align:right;">
-
-36
-
-</td>
-
-</tr>
 
 <tr>
 
@@ -314,6 +258,62 @@ Thu
 
 </tr>
 
+<tr>
+
+<td style="text-align:left;">
+
+2020-07-03
+
+</td>
+
+<td style="text-align:left;">
+
+Fri
+
+</td>
+
+<td style="text-align:left;">
+
+2020-06-29
+
+</td>
+
+<td style="text-align:right;">
+
+67
+
+</td>
+
+</tr>
+
+<tr>
+
+<td style="text-align:left;">
+
+2020-07-04
+
+</td>
+
+<td style="text-align:left;">
+
+Sat
+
+</td>
+
+<td style="text-align:left;">
+
+2020-06-29
+
+</td>
+
+<td style="text-align:right;">
+
+22
+
+</td>
+
+</tr>
+
 </tbody>
 
 </table>
@@ -432,13 +432,13 @@ Days
 
 <td style="text-align:right;">
 
-557
+646
 
 </td>
 
 <td style="text-align:right;">
 
-4
+6
 
 </td>
 
