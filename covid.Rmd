@@ -2,10 +2,14 @@
 title: "Using ggplot2 to visualise Covid-19 deaths the UK"
 author: "Andi Fugard (almost@gmail.com, @[inductivestep](https://twitter.com/InductiveStep))"
 date: "`r format(Sys.time(), '%d %B %Y')`"
-output: html_document
+output:
+  html_document:
+    self_contained: no
+    toc: yes
+    toc_float: yes
 ---
 
-This script shows how to use ggplot2, with the help of some other tidyverse tools, to plot UK Covid-19 deaths data.
+This script shows how to use ggplot2, with the help of some other tidyverse tools, to plot UK Covid-19 deaths data. The [source is available here](https://github.com/InductiveStep/ggplot-and-covid).
 
 ## General setup
 
