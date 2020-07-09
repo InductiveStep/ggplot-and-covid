@@ -13,7 +13,7 @@
 
 <meta name="date" content="2020-07-09" />
 
-<title>Using ggplot2 to visualise Covid-19 deaths the UK</title>
+<title>Using ggplot2 to visualise Covid-19 deaths in the UK</title>
 
 <script src="covid_files/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -255,7 +255,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Using ggplot2 to visualise Covid-19 deaths the UK</h1>
+<h1 class="title toc-ignore">Using ggplot2 to visualise Covid-19 deaths in the UK</h1>
 <h4 class="author">Andi Fugard (<a href="mailto:almost@gmail.com" class="email">almost@gmail.com</a>, @<a href="https://twitter.com/InductiveStep">inductivestep</a>)</h4>
 <h4 class="date">09 July 2020</h4>
 
@@ -533,10 +533,10 @@ death_week$Change           &lt;- with(death_week,
 <h3>Setup</h3>
 <pre class="r"><code>library(readxl)</code></pre>
 <p>The <code>read_csv</code> command (used above) can read data from the web. This is not currently (30 June 2020) the case for <code>read_xlsx</code>; the command below gives the error that the path “does not exist”.</p>
-<pre class="r"><code>ons_dat &lt;- read_xlsx(&quot;https://www.ons.gov.uk/visualisations/dvc875a/fig1/datadownload.xlsx&quot;)</code></pre>
+<pre class="r"><code>ons_dat &lt;- read_xlsx(&quot;https://www.ons.gov.uk/visualisations/dvc891/fig1/datadownload.xlsx&quot;)</code></pre>
 <p>The solution is to download the file first, which can be done within R, then read from there. The “mode” option is needed to download the file correctly (xlsx files are zip files, so they must be downloaded as binary files).</p>
 <pre class="r"><code>localExcelTemp &lt;- tempfile(fileext = &quot;.xlsx&quot;)
-download.file(&quot;https://www.ons.gov.uk/visualisations/dvc875a/fig1/datadownload.xlsx&quot;,
+download.file(&quot;https://www.ons.gov.uk/visualisations/dvc891/fig1/datadownload.xlsx&quot;,
               destfile = localExcelTemp,
               mode = &quot;wb&quot;)</code></pre>
 <p>This reads the file, skipping over the preamble and removing the footer.</p>
@@ -556,7 +556,7 @@ names(ons_dat)</code></pre>
 </div>
 <div id="fix-the-dates-1" class="section level3">
 <h3>Fix the dates</h3>
-<p>These data give the number of deaths by week for England and Wales for weeks ending 3 Jan 2020 to 19 June 2020.</p>
+<p>These data give the number of deaths by week for England and Wales for weeks ending 3 Jan 2020 to 26 June 2020.</p>
 <p>The first column gives week numbers. Let’s generate some proper dates:</p>
 <pre class="r"><code>startDate &lt;- as.Date(&quot;2020-01-03&quot;)
 numDates  &lt;- nrow(ons_dat)
@@ -579,14 +579,6 @@ COVID-19
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-2020-05-22
-</td>
-<td style="text-align:right;">
-2589
-</td>
-</tr>
 <tr>
 <td style="text-align:left;">
 2020-05-29
@@ -617,6 +609,14 @@ COVID-19
 </td>
 <td style="text-align:right;">
 783
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-06-26
+</td>
+<td style="text-align:right;">
+606
 </td>
 </tr>
 </tbody>

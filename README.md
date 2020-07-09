@@ -1,4 +1,4 @@
-Using ggplot2 to visualise Covid-19 deaths the UK
+Using ggplot2 to visualise Covid-19 deaths in the UK
 ================
 
 This R code shows how to use ggplot2, with the help of some other
