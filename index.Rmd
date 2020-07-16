@@ -238,3 +238,10 @@ ons_dat %>%
   geom_hline(yintercept=0)
 ```
 
+
+## Transport use during the coronavirus (COVID-19) pandemic
+
+Department for Transport [provides data](https://www.gov.uk/government/statistics/transport-use-during-the-coronavirus-covid-19-pandemic) every Wednesday.
+
+(To be continued)
+
